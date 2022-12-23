@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {//3rd executed
 //class is a collection of properties and methods.
-  constructor() {//1st executed 
+  constructor(private router:Router,private ds:DataService) {//1st executed 
                 //used for object initialization
                 //It automatically invokes when an object is created.
    }
@@ -29,43 +31,33 @@ export class LoginComponent implements OnInit {//3rd executed
 
   pswd:any;
 
-  userDetails:any={
-    1000:{acno:1000,username:"Amal",password:1000,balance:2000},
-    1001:{acno:1001,username:"Arun",password:1001,balance:2000},
-    1002:{acno:1002,username:"Akshay",password:1002,balance:2000},
-  }
-  //userdefined functions//4th executed
+  
+
   login(){
     var acno=this.acno;
     var pswd=this.pswd;
-    var userDetails=this.userDetails;
+    // var userDetails=this.ds.userDetails;
 
-    if(acno in userDetails){
-      if(pswd==userDetails[acno]['password']){
-        alert('Login successful');
-      }
-      else{
-        alert('Incorrect password')
-      }
-    }
-    else{
-      alert('User not found')
-    }
-    // alert('Login clicked');
-  }
-
+    const result= this.ds.login(acno,pswd)
+   if(result){
+    alert('Login Successful')
+    this.router.navigateByUrl('dashboard');
+   }
+   else{
+    alert('Login Failure')
+   }
   
-  acnoChange(event:any){
-// console.log(event.target.value);
-this.acno = event.target.value;//1000
-console.log(this.acno);
+//   acnoChange(event:any){
+// // console.log(event.target.value);
+// this.acno = event.target.value;//1000
+// console.log(this.acno);
 
 
-  }
-  pswdChange(event:any){
-    // console.log(event.target.value);
-    this.pswd = event.target.value;
-    console.log(this.pswd);
+//   }
+//   pswdChange(event:any){
+//     // console.log(event.target.value);
+//     this.pswd = event.target.value;
+//     console.log(this.pswd);
     
-  }
-}
+//   }
+}}
